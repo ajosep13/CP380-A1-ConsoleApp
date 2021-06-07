@@ -21,9 +21,8 @@ namespace RatingAdjustment.Services
          */
         void SetPercentPositive(double stars)
         {
-           
           
-                _percent_positive = (stars * 20) / 100;
+                _percent_positive = (stars * 20.0) / 100.0;
             
         }
 
@@ -35,7 +34,7 @@ namespace RatingAdjustment.Services
          
             double n=number_of_ratings;
             double p=  _percent_positive;
-            _q=Z*Math.Sqrt(((p*(1-p))+((Z*Z)/(4*n)))/n);
+            _q=Z*Math.Sqrt(((p*(1.0-p))+((Z*Z)/(4.0*n)))/n);
         }
 
         /** Adjusted lower bound
@@ -45,8 +44,7 @@ namespace RatingAdjustment.Services
          * Returns: a double, up to 5
          */
         public double Adjust(double stars, double number_of_ratings) {
-           
-            if (stars <= MAX_STARS && stars >= 0.0)
+            if (stars <= MAX_STARS)
             {
                 SetPercentPositive(stars);
                 SetQ(number_of_ratings);
@@ -54,9 +52,9 @@ namespace RatingAdjustment.Services
                 double p = _percent_positive;
                 double q = _q;
                 double lbound = ((p + ((Z * Z) / (2.0 * n)) - q) / (1.0 + ((Z * Z) / n)));
-                return (lbound / 20) * 100;
+                return (lbound / 20.0) * 100.0;
             }
-            return 0.0;     //return 0.0 if stars exceed MAX_STARS
+            return 0.0; //Returns 0.0 if the stars are greater than 5.0
         }
     }
 }
