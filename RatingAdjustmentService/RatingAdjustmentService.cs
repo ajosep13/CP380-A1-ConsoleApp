@@ -52,7 +52,15 @@ namespace RatingAdjustment.Services
                 double p = _percent_positive;
                 double q = _q;
                 double lbound = ((p + ((Z * Z) / (2.0 * n)) - q) / (1.0 + ((Z * Z) / n)));
-                return (lbound / 20.0) * 100.0;
+                double lower_bound = (lbound / 20.0) * 100.0;
+                if (lower_bound <= MAX_STARS)
+                {
+                    return lower_bound;
+                }
+                else
+                {
+                    return stars;
+                }
             }
             return 0.0; //Returns 0.0 if the stars are greater than 5.0
         }
